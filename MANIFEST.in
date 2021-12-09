@@ -1,0 +1,3 @@
+include requirements.txt
+include disease_ontology/version/version.json
+include disease_ontology/data/DO.pkl
