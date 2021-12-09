@@ -1,5 +1,5 @@
 
-# Toolkits for Disease Ontology
+# Toolkits for DiseaseOntology
 
 ## Sub Commands
 ### 1 `build`

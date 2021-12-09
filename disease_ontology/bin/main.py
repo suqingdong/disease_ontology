@@ -7,7 +7,15 @@ from disease_ontology.util import parse_version, parse_term, get_iter_lines
 from disease_ontology.util import fuzzy_query
 
 
-@click.group(help=version_info['desc'])
+__epilog__ = '''\
+contact: {author} <{author_email}>
+'''.format(**version_info)
+
+
+@click.group(
+    help=click.style(version_info['desc'], fg='cyan', bold=True),
+    epilog=click.style(__epilog__, fg='yellow'),
+)
 @click.option('-d', '--dbfile',
               help='the database file path',
               default=str(DEFAULT_DB_PATH),
