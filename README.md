@@ -1,6 +1,11 @@
 
 # Toolkits for DiseaseOntology
 
+## Installation
+```bash
+python3 -m pip install disease_ontology
+```
+
 ## Sub Commands
 ### 1 `build`
 > build/update the database
