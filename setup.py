@@ -18,7 +18,7 @@ setup(
     long_description_content_type="text/markdown",
     url='https://github.com/suqingdong/disease_ontology',
     project_urls={
-        'Documentation': 'https://disease_ontology.readthedocs.io',
+        'Documentation': 'https://suqingdong.github.io/disease_ontology/',
         'Tracker': 'https://github.com/suqingdong/disease_ontology/issues',
     },
     license='BSD License',
