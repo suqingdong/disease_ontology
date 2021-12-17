@@ -36,9 +36,11 @@ def parse_term(lines):
                 yield term
                 term = {}
         elif linelist[0] == 'id':
-            term['id'] = linelist[1].strip('DOID:')
+            term['id'] = linelist[1]
         elif linelist[0] == 'name':
             term['name'] = linelist[1]
+        elif linelist[0] == 'def':
+            term['def'] = linelist[1]
         elif linelist[0] == '[Typedef]':
             yield term
             break

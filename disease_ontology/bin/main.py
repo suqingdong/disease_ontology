@@ -1,4 +1,5 @@
 from pathlib import Path
+
 import click
 import pickle
 
@@ -38,6 +39,7 @@ def cli(ctx, **kwargs):
 @click.argument('text', required=True, nargs=-1)
 @click.option('-l', '--limit', help='maximum for the number of terms', type=int, default=5)
 @click.option('-s', '--score-cutoff', help='Optional argument for score threshold', type=float, default=0)
+@click.option('-d', '--def', help='show the definition', is_flag=True)
 @click.pass_obj
 def query(obj, **kwargs):
     dbfile = obj.get('dbfile')
@@ -49,7 +51,11 @@ def query(obj, **kwargs):
 
     click.secho(f'query string: "{text}"', err=True, fg='green')
     data = pickle.load(dbfile.open('rb'))
-    fuzzy_query(text, data['terms'], limit=kwargs['limit'], score_cutoff=kwargs['score_cutoff'])
+    disease = fuzzy_query(text, data['terms'], limit=kwargs['limit'],
+                score_cutoff=kwargs['score_cutoff'])
+
+    click.secho(f'{"=" * 50}\nDisease:\t{disease}', fg='cyan')
+    click.secho('DOID:\t\t{id}\nDefinition:\t{def}'.format(**data['terms'][disease]), fg='cyan')
 
 
 @click.command(
@@ -65,7 +71,10 @@ def build(obj, **kwargs):
 
     data = {}
     data['data_version'] = parse_version(lines)
-    data['terms'] = {term['name']: term['id'] for term in parse_term(lines)}
+    data['terms'] = {
+        term['name']: {'id': term['id'], 'def': term.get('def', 'NA')}
+        for term in parse_term(lines)
+    }
     data['term_count'] = len(data['terms'])
 
     click.secho('data_version: {data_version}\nterm_count: {term_count}'.format(
@@ -88,8 +97,8 @@ def version(obj):
     data = pickle.load(dbfile.open('rb'))
     data_version = data.get('data_version')
     term_count = len(data['terms'])
-    click.secho(f'data_version:\t{data_version}\nterm_count:\t{term_count}', err=True, fg='cyan')
-
+    click.secho(
+        f'data_version:\t{data_version}\nterm_count:\t{term_count}', err=True, fg='cyan')
 
 
 def main():
